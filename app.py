@@ -517,6 +517,7 @@ def get_db_connection():
             password=DB_PASSWORD, # MySQL password
             database=DB_NAME,    # MySQL database name
             port=3306            # Default MySQL port
+            connect_timeout=120
         )
 
         print("Connected to the database!")
