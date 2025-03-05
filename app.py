@@ -33,17 +33,19 @@ def fetch_data():
         # Loop from start date to end date
         current_date = start_date
         while current_date <= end_date:
-            data = ma.get_data(symbol, current_date)
+            if current_date.weekday() < 5:
 
-            # Check if data is a DataFrame
-            if isinstance(data, pd.DataFrame):
-                if not data.empty:
-                    json_data = data.to_dict(orient="records")  # Convert DataFrame to list of dictionaries
-                    all_data.extend(json_data)
-            elif isinstance(data, list):  # If data is already a list
-                all_data.extend(data)
-            elif isinstance(data, dict):  # If data is a dict, wrap it in a list
-                all_data.append(data)
+                data = ma.get_data(symbol, current_date)
+
+                # Check if data is a DataFrame
+                if isinstance(data, pd.DataFrame):
+                    if not data.empty:
+                        json_data = data.to_dict(orient="records")  # Convert DataFrame to list of dictionaries
+                        all_data.extend(json_data)
+                elif isinstance(data, list): 
+                    all_data.extend(data)
+                elif isinstance(data, dict): 
+                    all_data.append(data)
 
             current_date += datetime.timedelta(days=1)
 
